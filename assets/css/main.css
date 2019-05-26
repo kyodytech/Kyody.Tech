@@ -1,5 +1,5 @@
 @import url(font-awesome.min.css);
-@import url("http://fonts.googleapis.com/css?family=Roboto:300,700");
+@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">);
 
 /*
 	Typify by TEMPLATED
@@ -14,7 +14,7 @@
 		padding: 0;
 		border: 0;
 		font-size: 100%;
-		font: roboto;
+		font:Roboto;
 		vertical-align: baseline;
 	}
 
