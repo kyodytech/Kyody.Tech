@@ -1,6 +1,6 @@
 <?php
 return [
-    'emails' => [
+    'Submit' => [
         'to'   => 'info@kylemarciano.com',
         'from' => 'info@kylemarciano.com'
     ],
