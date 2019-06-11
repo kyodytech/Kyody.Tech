@@ -5,40 +5,64 @@
 */
 
 (function($) {
+  skel.breakpoints({
+    xlarge: "(max-width: 1680px)",
+    large: "(max-width: 1280px)",
+    medium: "(max-width: 980px)",
+    small: "(max-width: 736px)",
+    xsmall: "(max-width: 480px)"
+  });
 
-	skel.breakpoints({
-		xlarge:	'(max-width: 1680px)',
-		large:	'(max-width: 1280px)',
-		medium:	'(max-width: 980px)',
-		small:	'(max-width: 736px)',
-		xsmall:	'(max-width: 480px)'
-	});
+  $(function() {
+    var $window = $(window),
+      $body = $("body");
 
-	$(function() {
+    // Disable animations/transitions until the page has loaded.
+    $body.addClass("is-loading");
 
-		var	$window = $(window),
-			$body = $('body');
+    $window.on("load", function() {
+      window.setTimeout(function() {
+        $body.removeClass("is-loading");
+      }, 100);
+    });
 
-		// Disable animations/transitions until the page has loaded.
-			$body.addClass('is-loading');
+    // Fix: Placeholder polyfill.
+    $("form").placeholder();
 
-			$window.on('load', function() {
-				window.setTimeout(function() {
-					$body.removeClass('is-loading');
-				}, 100);
-			});
+    // Prioritize "important" elements on medium.
+    skel.on("+medium -medium", function() {
+      $.prioritize(
+        ".important\\28 medium\\29",
+        skel.breakpoint("medium").active
+      );
+    });
 
-		// Fix: Placeholder polyfill.
-			$('form').placeholder();
+    $("#contact-form").submit(function(e) {
+      e.preventDefault();
 
-		// Prioritize "important" elements on medium.
-			skel.on('+medium -medium', function() {
-				$.prioritize(
-					'.important\\28 medium\\29',
-					skel.breakpoint('medium').active
-				);
-			});
+      const url = $(this).attr("action");
 
-	});
+      const data = {
+        userKey: $("#contact-form-userkey")[0].value,
+        body: {
+          name: $("#contact-form-name")[0].value,
+          from: $("#contact-form-email")[0].value,
+          message: $("#contact-form-message")[0].value
+        }
+      };
 
+      $.ajax({
+        type: "POST",
+        url: url,
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function(res) {
+          console.log("Email sent");
+        },
+        error: function(err) {
+          console.log(err);
+        }
+      });
+    });
+  });
 })(jQuery);
