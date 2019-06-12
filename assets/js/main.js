@@ -41,6 +41,7 @@
       e.preventDefault();
 
       const url = $(this).attr("action");
+      const status = $("#contact-form-status");
 
       const data = {
         userKey: $("#contact-form-userkey")[0].value,
@@ -57,10 +58,12 @@
         contentType: "application/json",
         data: JSON.stringify(data),
         success: function(res) {
-          console.log("Email sent");
+          status.html("Thanks for reaching out, I'll be in touch soon!");
         },
         error: function(err) {
-          console.log(err);
+          status.html(
+            `Something went wrong with sending your message, please try again or contact me by <a class="btn btn-social btn-lg btn-adn" href=" mailto:info@kylemarciano.com?subject=Interested%20in%20more%20information%20"><i class="fa fa-envelope" aria-hidden="true"></i>info@kylemarciano.com</a>`
+          );
         }
       });
     });
